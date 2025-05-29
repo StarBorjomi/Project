@@ -1,0 +1,24 @@
+{% extends "project/layout.html" %}
+{% block content %}
+  <h1>Guess game</h1>
+
+  {% if user.is_authenticated %}
+	<span class="me-2">You are logged in as {{ user.username }}!</span>
+	{% if current_game %}
+	  <p>У вас є незавершена гра.</p>
+	  <a href="{% url 'play_game' %}" class="btn btn-primary">Continue the game</a>
+	{% else %}
+	  <a href="{% url 'start_game' %}" class="btn btn-success">Start a new game</a>
+	{% endif %}
+
+	<ul>
+	  <li>You have completed: {{ total_games }}</li>
+	</ul>
+
+  {% else %}
+	<p>The "Guess the Number" game is a simple logic game where you try to guess a number between 1 and 10.</p>
+	<p>After each guess, you’ll find out if your number matches the secret number. Keep guessing until you get it right!</p>
+	<a href="{% url 'login' %}" class="btn btn-primary">Увійти</a>
+	<a href="{% url 'register' %}" class="btn btn-secondary">Зареєструватися</a>
+  {% endif %}
+{% endblock %}
