@@ -27,13 +27,15 @@ def index(request):
 			total_games -= 1
 			total_tries -= current_game.tries.count()
 
-	return render(
-		request,
-		'game/index.html',
-		{
-			'current_game': current_game,
-			'total_games': total_games
-		},
+		if current_game == None:
+			total_games = 999
+		return render(
+			request,
+			'game/index.html',
+			{
+				'current_game': current_game,
+				'total_games': total_games
+			},
 	)
 
 @login_required
@@ -44,7 +46,7 @@ def start_a_new_game(request):
 
 @login_required
 def play_a_game(request):
-	game = Game.objects.filter(user=request.user).first()
+	game = Game.objects.filter(user=request.user).last()
 
 	form = TryForm(request.POST or None)
 	if request.method == 'POST' and form.is_valid():
